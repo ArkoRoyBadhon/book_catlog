@@ -2,28 +2,33 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import { createSlice } from "@reduxjs/toolkit";
 
-interface IUserState {
+export interface IRootState {
   user: {
     email: string | null;
   };
+  accessToken: string | null;
 }
 
-const initialState: IUserState = {
+export const initialState: IRootState = {
   user: {
     email: null,
   },
+  accessToken: null,
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser: (state) => {
-      state.user.email = "arko";
+    setAccessToken: (state, action) => {
+      state.accessToken = action.payload;
+    },
+    setLoggedEmail: (state, action) => {
+      state.user.email = action.payload;
     },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setAccessToken, setLoggedEmail } = userSlice.actions;
 
 export default userSlice.reducer;

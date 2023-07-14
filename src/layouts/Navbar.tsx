@@ -1,9 +1,28 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React from "react";
 import booklogo from "../assets/Book.png";
 import { BiSolidUserCircle } from "react-icons/bi";
 import { FaSearch } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { useGetUserQuery } from "../redux/features/user/userApi";
+import { useAppDispatch } from "../redux/hook";
+import { setLoggedEmail } from "../redux/features/user/userSlice";
 
 const Navbar = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { data: userData, isLoading, isSuccess } = useGetUserQuery(undefined);
+  const dispacth = useAppDispatch()
+
+
+  if (isLoading) {
+    console.log("pending");
+  }
+
+  if(isSuccess){
+    dispacth(setLoggedEmail(userData.email))
+  }
+  console.log("data", userData);
+
   return (
     <div className="w-full border-b-2 shadow-sm">
       <div className="mx-[100px] flex justify-between items-center gap-20 py-5">
@@ -24,8 +43,21 @@ const Navbar = () => {
               <li className="mt-1 mr-5 cursor-pointer">
                 <FaSearch size={22} />
               </li>
-              <li className="font-bold text-[16px] cursor-pointer">Sign Up</li>
-              <li className="font-bold text-[16px] cursor-pointer">Log In</li>
+              {userData?.success === true ? (
+                <li className="font-bold text-[16px] cursor-pointer">
+                  <Link to="/signup">Log Out</Link>
+                </li>
+              ) : (
+                <>
+                  <li className="font-bold text-[16px] cursor-pointer">
+                    <Link to="/signup">Sign Up</Link>
+                  </li>
+                  <li className="font-bold text-[16px] cursor-pointer">
+                    <Link to="/login">Log In</Link>
+                  </li>
+                </>
+              )}
+
               <li className="cursor-pointer">
                 <BiSolidUserCircle size={26} />
               </li>

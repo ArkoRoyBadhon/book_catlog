@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { api } from "../../api/apiSlice";
 
+
+
 const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getUser: builder.query({
@@ -15,7 +17,15 @@ const userApi = api.injectEndpoints({
         body: data,
       }),
     }),
+    loginUser: builder.mutation({
+      query: ({ data }) => ({
+        url: `/api/v1/auth/login`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useGetUserQuery, useCreateUserMutation } = userApi;
+export const { useGetUserQuery, useCreateUserMutation, useLoginUserMutation } =
+  userApi;
