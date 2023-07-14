@@ -5,23 +5,21 @@ import App from "../App";
 import Home from "../pages/Home";
 import Signup from "../pages/Signup";
 
-
 const routes = createBrowserRouter([
-    {
-        path: '/',
-        element: <App />,
-        children: [
-            {
-                path: '/',
-                element: <Home />
-            }
-        ]
-    },
-    {
-        path: '/signup',
-        element: <Signup />
-    },
-])
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
+    ],
+  },
+]);
 
-
-export default routes
+export default routes;

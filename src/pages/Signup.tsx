@@ -1,7 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React from "react";
+
 import { Link } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useCreateUserMutation } from "../redux/features/user/userApi";
+import { toast } from "react-toastify";
+import { useState } from "react";
 
 interface Iinput {
   fName: string;
@@ -11,23 +17,39 @@ interface Iinput {
 }
 
 const Signup = () => {
+  const [createUser, { isLoading, isSuccess }] = useCreateUserMutation();
+
+  if (isSuccess) {
+    toast("User created succesfully!", {
+      toastId: "user created",
+    });
+  }
+  if (isLoading) {
+    toast("Please wait a moment while creating user!", {
+      toastId: "pending",
+    });
+  }
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Iinput>();
   const onSubmit: SubmitHandler<Iinput> = (data) => {
-    const userInfo = {
-        "password": data.password,
-        "email": data.email,
-        "name": {
-          "firstName": data.fName,
-          "lastName": data.lName
-        }
+    const jsonData = {
+      password: data.password,
+      email: data.email,
+      name: {
+        firstName: data.fName,
+        lastName: data.lName,
+      },
     };
 
-    console.log(userInfo);
-    
+    const userInfo = {
+      data: jsonData,
+    };
+
+    createUser(userInfo);
   };
 
   return (
@@ -35,7 +57,7 @@ const Signup = () => {
       <div className="flex justify-center items-center">
         <form
           style={{ boxShadow: "0 2px 8px rgba(0.2, 0.4, 0.2, 0.4)" }}
-          className="mt-20 w-[450px] py-10 px-5 rounded-md "
+          className=" w-[450px] py-10 px-5 rounded-md "
           onSubmit={handleSubmit(onSubmit)}
         >
           <h3 className="text-2xl font-bold text-center text-blue-600 mb-10">
