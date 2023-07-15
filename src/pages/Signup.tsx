@@ -3,11 +3,12 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useCreateUserMutation } from "../redux/features/user/userApi";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { useAppSelector } from "../redux/hook";
 
 interface Iinput {
   fName: string;
@@ -18,6 +19,8 @@ interface Iinput {
 
 const Signup = () => {
   const [createUser, { isLoading, isSuccess }] = useCreateUserMutation();
+  const { user } = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
 
   if (isSuccess) {
     toast("User created succesfully!", {
@@ -51,6 +54,10 @@ const Signup = () => {
 
     createUser(userInfo);
   };
+
+  if (user.email) {
+    navigate("/");
+  }
 
   return (
     <div className="">

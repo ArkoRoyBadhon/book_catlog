@@ -7,7 +7,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLoginUserMutation } from "../redux/features/user/userApi";
 import { toast } from "react-toastify";
-import { useAppSelector } from "../redux/hook";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { setAccessToken } from "../redux/features/user/userSlice";
+import { useEffect } from "react";
 
 interface Iinput {
   email: string;
@@ -16,7 +18,8 @@ interface Iinput {
 
 const Login = () => {
   const [loginUser, { isLoading, isSuccess }] = useLoginUserMutation();
-  const { email: LoggedEmail } = useAppSelector((state) => state.user.user);
+  const { accessToken: token, user } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
   if (isSuccess) {
@@ -48,14 +51,20 @@ const Login = () => {
     const result: any = await loginUser(loginInfo);
     if (result) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      const accessToken = result?.data?.data?.accessToken;
+      const tokenRetrive = result?.data?.data?.accessToken;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      localStorage.setItem("access_token", accessToken);
+      localStorage.setItem("access_token", tokenRetrive);
+      dispatch(setAccessToken(tokenRetrive));
+      console.log("pure tokrn", tokenRetrive);
+      console.log("redux tokrn", token);
+
       navigate("/");
+
+      window.location.reload();
     }
   };
 
-  if (LoggedEmail) {
+  if (user.email) {
     navigate("/");
   }
 
