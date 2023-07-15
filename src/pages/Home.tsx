@@ -32,6 +32,7 @@ const Home = () => {
     return (
       <div className="max-w-screen-xl mx-auto">
         <div>Hello home page {email}</div>
+        <h5 className="text-md font-bold mt-5 mb-10">Latest Books</h5>
         <div className="grid grid-cols-4 gap-10">
           {booklist?.data.map((item: Partial<IBook>, i: number) => {
             
@@ -40,7 +41,7 @@ const Home = () => {
             
             
             return (
-              <div className="bg-red-200 h-fit p-3" key={i}>
+              <div  className=" h-fit p-3 rounded-md shadow-customShadow hover:shadow-customShadowHover" key={i}>
                 <h4 className="text-md font-bold">Book Title: {item.Title}</h4>
                 <p className="text-[12px]">{formattedDate}</p>
                 <p className="text-[16px] font-semibold">
