@@ -39,7 +39,7 @@ const Navbar = () => {
                 <Link to="/">Home</Link>
               </li>
               <li className="font-bold text-[16px] cursor-pointer">
-                All Books
+                <Link to="/allbooks">All Books</Link>
               </li>
               {userData?.data?.email && (
                 <li className="font-bold text-[16px] cursor-pointer">

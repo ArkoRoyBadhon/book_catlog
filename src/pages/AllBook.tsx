@@ -4,7 +4,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useGetAllBooksQuery } from "../redux/features/book/bookApi";
 import { format } from "date-fns";
-import Banner from "../components/Banner";
 
 export type IBook = {
   Title: string;
@@ -13,7 +12,7 @@ export type IBook = {
   PublicationDate: any;
 };
 
-const Home = () => {
+const AllBooks = () => {
   const {
     data: booklist,
     isLoading,
@@ -27,9 +26,7 @@ const Home = () => {
   }
   if (isSuccess) {
     return (
-      <div className="max-w-screen-xl mx-auto mb-10">
-        <Banner />
-        <h5 className="text-2xl font-bold mt-10 mb-10">Latest Books</h5>
+      <div className="max-w-screen-xl mx-auto mb-10 mt-20">
         <div className="grid grid-cols-4 gap-10">
           {booklist?.data.map((item: Partial<IBook>, i: number) => {
             const date = new Date(item?.PublicationDate);
@@ -53,15 +50,9 @@ const Home = () => {
             );
           })}
         </div>
-
-        <div className="flex justify-center items-center">
-          <div className="bg-blue-400 hover:bg-blue-500 w-fit py-2 px-5 rounded-md my-10  font-bold text-white cursor-pointer">
-            See All
-          </div>
-        </div>
       </div>
     );
   }
 };
 
-export default Home;
+export default AllBooks;
