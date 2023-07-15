@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React from "react";
 import booklogo from "../assets/Book.png";
@@ -10,21 +11,20 @@ import { setLoggedEmail } from "../redux/features/user/userSlice";
 
 const Navbar = () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { data: userData, isLoading, isSuccess, refetch } = useGetUserQuery(undefined);
-  const dispacth = useAppDispatch()
-
+  const { data: userData, isSuccess } = useGetUserQuery(undefined);
+  const dispacth = useAppDispatch();
 
   // if (isLoading) {
   //   console.log("pending");
   // }
 
-  if(isSuccess){
-    dispacth(setLoggedEmail(userData.data.email))
+  if (isSuccess) {
+    dispacth(setLoggedEmail(userData.data.email));
   }
   const logOutHandler = () => {
-    localStorage.setItem("access_token", "")
+    localStorage.setItem("access_token", "");
     window.location.reload();
-  }
+  };
 
   return (
     <div className="w-full border-b-2 shadow-sm">
@@ -35,10 +35,17 @@ const Navbar = () => {
         <div className="w-[80%] h-full flex justify-between">
           <div className="">
             <ul className="flex gap-10">
-              <li className="font-bold text-[16px] cursor-pointer"><Link to="/">Home</Link></li>
+              <li className="font-bold text-[16px] cursor-pointer">
+                <Link to="/">Home</Link>
+              </li>
               <li className="font-bold text-[16px] cursor-pointer">
                 All Books
               </li>
+              {userData?.data?.email && (
+                <li className="font-bold text-[16px] cursor-pointer">
+                  <Link to="/addbook">Add New Book</Link>
+                </li>
+              )}
             </ul>
           </div>
           <div className="">
@@ -48,7 +55,9 @@ const Navbar = () => {
               </li>
               {userData?.success === true ? (
                 <li className="font-bold text-[16px] cursor-pointer">
-                  <Link onClick={()=> logOutHandler()} to="/">Log Out</Link>
+                  <Link onClick={() => logOutHandler()} to="/">
+                    Log Out
+                  </Link>
                 </li>
               ) : (
                 <>

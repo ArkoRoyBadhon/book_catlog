@@ -9,7 +9,6 @@ import { useLoginUserMutation } from "../redux/features/user/userApi";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { setAccessToken } from "../redux/features/user/userSlice";
-import { useEffect } from "react";
 
 interface Iinput {
   email: string;
