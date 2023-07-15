@@ -31,7 +31,7 @@ const Home = () => {
         <Banner />
         <h5 className="text-2xl font-bold mt-10 mb-10">Latest Books</h5>
         <div className="grid grid-cols-4 gap-10">
-          {booklist?.data.map((item: Partial<IBook>, i: number) => {
+          {booklist?.data.slice(0,10).map((item: Partial<IBook>, i: number) => {
             const date = new Date(item?.PublicationDate);
             const formattedDate = format(date, "dd MMM yyyy, HH:mm:ss");
 

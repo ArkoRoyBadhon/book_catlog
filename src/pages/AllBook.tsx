@@ -1,11 +1,15 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { Link } from "react-router-dom";
 import { useGetAllBooksQuery } from "../redux/features/book/bookApi";
 import { format } from "date-fns";
 
 export type IBook = {
+  [x: string]: any;
+  _id?: string;
   Title: string;
   Author: string;
   Genre: string;
@@ -19,15 +23,23 @@ const AllBooks = () => {
     isSuccess,
   } = useGetAllBooksQuery(undefined);
 
-  console.log(booklist);
-
   if (isLoading) {
-    return <div className="h-[100vh] w-[100vw] flex justify-center items-center">Loading ....</div>;
+    return (
+      <div className="h-[100vh] w-[100vw] flex justify-center items-center">
+        Loading ....
+      </div>
+    );
   }
   if (isSuccess) {
+    const pageNumber = Math.ceil(booklist?.meta.count / booklist?.meta.limit);
+
     return (
-      <div className="max-w-screen-xl mx-auto mb-10 mt-20">
-        <div className="grid grid-cols-4 gap-10">
+      <div className="max-w-screen-xl mx-auto mb-10">
+        <div className="mt-5">
+          <h4 className="font-semibold">Filter Options</h4>
+        </div>
+
+        <div className="grid grid-cols-4 gap-10 mt-20">
           {booklist?.data.map((item: Partial<IBook>, i: number) => {
             const date = new Date(item?.PublicationDate);
             const formattedDate = format(date, "dd MMM yyyy, HH:mm:ss");
@@ -43,12 +55,17 @@ const AllBooks = () => {
                   Category: {item?.Genre}
                 </p>
                 <p className="text-[] font-semibold">Author: {item.Author}</p>
-                <div className="bg-blue-400 hover:bg-blue-500 py-2 mt-2 text-center rounded-md cursor-pointer">
-                  View
-                </div>
+                <Link to={`/detailbook/${item?._id}`}>
+                  <div className="bg-blue-400 hover:bg-blue-500 py-2 mt-2 text-center rounded-md cursor-pointer">
+                    View
+                  </div>
+                </Link>
               </div>
             );
           })}
+        </div>
+        <div className="">
+          <div className="flex flex-wrap"></div>
         </div>
       </div>
     );
