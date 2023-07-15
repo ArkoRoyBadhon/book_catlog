@@ -7,7 +7,7 @@ import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useGetUserQuery } from "../redux/features/user/userApi";
 import { useAppDispatch } from "../redux/hook";
-import { setLoggedEmail } from "../redux/features/user/userSlice";
+import { setLoggedInfo } from "../redux/features/user/userSlice";
 
 const Navbar = () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -19,7 +19,7 @@ const Navbar = () => {
   // }
 
   if (isSuccess) {
-    dispacth(setLoggedEmail(userData.data.email));
+    dispacth(setLoggedInfo(userData.data));
   }
   const logOutHandler = () => {
     localStorage.setItem("access_token", "");

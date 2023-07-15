@@ -32,13 +32,23 @@ const DetailsBook = () => {
     return (
       <div className="max-w-screen-lg mx-auto mt-10">
         <h3 className="font-bold">Detail Page</h3>
-        <div className="mt-10">
+        <div className="mt-5">
           {selectedItem.map((item: IBook) => {
             const date = new Date(item?.PublicationDate);
             const formattedDate = format(date, "dd MMM yyyy, HH:mm:ss");
             return (
               <div key={item?._id}>
-                <div className="text-xl font-semibold">
+                <hr />
+                <div className="flex gap-5 my-5">
+                  <div className="rounded-md py-2 px-5 bg-blue-400 hover:bg-blue-500 cursor-pointer">
+                    Edit
+                  </div>
+                  <div className="rounded-md py-2 px-5 bg-red-400 hover:bg-red-500 cursor-pointer">
+                    Delete
+                  </div>
+                </div>
+                <hr />
+                <div className="text-xl font-semibold mt-5">
                   Title: {item?.Title}
                 </div>
                 <div className="text-[12px] font-semibold">
@@ -50,7 +60,11 @@ const DetailsBook = () => {
                 <div className="text-lg font-semibold mt-2">
                   Author: {item?.Genre}
                 </div>
-                <div className="mt-5"> <span className="font-semibold">Description: </span> description</div>
+                <div className="mt-5">
+                  {" "}
+                  <span className="font-semibold">Description: </span>{" "}
+                  description
+                </div>
               </div>
             );
           })}

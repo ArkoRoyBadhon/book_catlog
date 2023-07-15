@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { Link, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useAppSelector } from "../redux/hook";
@@ -11,12 +11,13 @@ interface IBook {
   Author: string;
   Genre: string;
   Publicationdate: Date;
+  AuthorId: string;
+  reviews: string[]
 }
 
 const AddBook = () => {
   const [createBook, {isSuccess, isError}] = useCreateBookMutation();
   const { user } = useAppSelector((state) => state.user);
-  const navigate = useNavigate();
 
     if (isSuccess) {
       toast("Book created succesfully!", {
@@ -39,6 +40,7 @@ const AddBook = () => {
       Title: data.Title,
       Author: data.Author,
       Genre: data.Genre,
+      AuthorId: data.AuthorId
     };
 
     const bookInfo = {
@@ -85,6 +87,17 @@ const AddBook = () => {
               type="text"
               {...register("Genre")}
               placeholder="Genre"
+              className="border border-blue-300 p-2 rounded-md my-2 w-full outline-blue-300"
+            />
+          </div>
+          <div className="hidden">
+            <label htmlFor="firstName">AuthorId</label>
+            <br />
+            <input
+              type="text"
+              value={user.id!}
+              {...register("AuthorId")}
+              placeholder="Author Id"
               className="border border-blue-300 p-2 rounded-md my-2 w-full outline-blue-300"
             />
           </div>
