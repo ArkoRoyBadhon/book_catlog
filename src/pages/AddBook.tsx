@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Link, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useAppSelector } from "../redux/hook";
+import { useCreateBookMutation } from "../redux/features/book/bookApi";
 
 interface IBook {
   Title: string;
@@ -12,19 +14,20 @@ interface IBook {
 }
 
 const AddBook = () => {
+  const [createBook, {isSuccess, isError}] = useCreateBookMutation();
   const { user } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
 
-  //   if (isSuccess) {
-  //     toast("User created succesfully!", {
-  //       toastId: "user created",
-  //     });
-  //   }
-  //   if (isLoading) {
-  //     toast("Please wait a moment while creating user!", {
-  //       toastId: "pending",
-  //     });
-  //   }
+    if (isSuccess) {
+      toast("Book created succesfully!", {
+        toastId: "book created",
+      });
+    }
+    if (isError) {
+      toast("Something went wrong", {
+        toastId: "book-creation-error",
+      });
+    }
 
   const {
     register,
@@ -41,8 +44,7 @@ const AddBook = () => {
     const bookInfo = {
       data: jsonData,
     };
-
-    console.log(bookInfo);
+    createBook(bookInfo)
   };
 
   return (
