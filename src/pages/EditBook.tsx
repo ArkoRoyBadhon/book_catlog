@@ -8,8 +8,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useAppSelector } from "../redux/hook";
 import {
-  useCreateBookMutation,
   useGetSingleBookQuery,
+  useUpdateBookMutation,
 } from "../redux/features/book/bookApi";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -25,15 +25,13 @@ interface IBook {
 const EditBook = () => {
   const { id } = useParams<{ id: string }>();
   const { data: singleBookData } = useGetSingleBookQuery(id);
-  const [createBook, { isSuccess, isError }] = useCreateBookMutation();
+  const [updateBook, { isSuccess, isError }] = useUpdateBookMutation();
   const { user } = useAppSelector((state) => state.user);
 
   const navigate = useNavigate();
 
-  console.log("Single", singleBookData);
-
   if (isSuccess) {
-    toast("Book created succesfully!", {
+    toast("Book Updated succesfully!", {
       toastId: "book created",
     });
   }
@@ -43,26 +41,29 @@ const EditBook = () => {
     });
   }
 
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<IBook>();
-  const onSubmit: SubmitHandler<IBook> = (data) => {
+  const onSubmitEdit: SubmitHandler<IBook> = (data) => {
     const jsonData = {
-      Title: data.Title,
-      Author: data.Author,
-      Genre: data.Genre,
-      AuthorId: data.AuthorId,
+      Title: data.Title !== '' ? data.Title : singleBookData?.data?.Title ,
+      Author: data.Author !== '' ? data.Author : singleBookData?.data?.Author ,
+      Genre: data.Genre !== '' ? data.Genre : singleBookData?.data?.Genre,
+      AuthorId: data.AuthorId !== '' ? data.AuthorId : singleBookData?.data?.AuthorId,
     };
 
     const bookInfo = {
+      id,
       data: jsonData,
     };
-    createBook(bookInfo);
-  };
 
-  console.log("Private", user);
+    console.log("Out", jsonData);
+
+    updateBook(bookInfo);
+  };
 
   if (user.email === null) {
     console.log(user.email);
@@ -72,68 +73,64 @@ const EditBook = () => {
   return (
     <div className="">
       <div className="flex justify-center items-center">
-        {singleBookData?.data.map((item: IBook) => {
-          return (
-            <form
-              style={{ boxShadow: "0 2px 8px rgba(0.2, 0.4, 0.2, 0.4)" }}
-              className=" w-[450px] py-10 px-5 rounded-md mt-14"
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <h3 className="text-2xl font-bold text-center text-blue-600 mb-10">
-                Edit and Update Book
-              </h3>
-              <div className="">
-                <label htmlFor="Title">Title</label>
-                <br />
-                <input
-                  type="text"
-                  value={item?.Title}
-                  {...register("Title")}
-                  placeholder="Book Title"
-                  className="border border-blue-300 p-2 rounded-md my-2 w-full outline-blue-300"
-                />
-              </div>
-              <div className="">
-                <label htmlFor="Author">Author</label>
-                <br />
-                <input
-                  type="text"
-                  value={item?.Author}
-                  {...register("Author")}
-                  placeholder="Author"
-                  className="border border-blue-300 p-2 rounded-md my-2 w-full outline-blue-300"
-                />
-              </div>
-              <div className="">
-                <label htmlFor="Genre">Genre</label>
-                <br />
-                <input
-                  type="text"
-                  value={item?.Genre}
-                  {...register("Genre")}
-                  placeholder="Genre"
-                  className="border border-blue-300 p-2 rounded-md my-2 w-full outline-blue-300"
-                />
-              </div>
-              <div className="hidden">
-                <label htmlFor="AuthorId">AuthorId</label>
-                <br />
-                <input
-                  type="text"
-                  value={item?.AuthorId}
-                  {...register("AuthorId")}
-                  placeholder="Author Id"
-                  className="border border-blue-300 p-2 rounded-md my-2 w-full outline-blue-300"
-                />
-              </div>
-              <input
-                className="bg-blue-400 w-full mt-5 py-2 rounded-md text-white font-bold hover:bg-blue-500"
-                type="submit"
-                value="Update"
-              />
-            </form>
-          );
-        })}
+        <form
+          style={{ boxShadow: "0 2px 8px rgba(0.2, 0.4, 0.2, 0.4)" }}
+          className=" w-[450px] py-10 px-5 rounded-md mt-14"
+          onSubmit={handleSubmit(onSubmitEdit)}
+        >
+          <h3 className="text-2xl font-bold text-center text-blue-600 mb-10">
+            Edit and Update Book
+          </h3>
+          <div className="">
+            <label htmlFor="Title">Title</label>
+            <br />
+            <input
+              type="text"
+              defaultValue={singleBookData?.data?.Title}
+              {...register("Title")}
+              placeholder="Book Title"
+              className="border border-blue-300 p-2 rounded-md my-2 w-full outline-blue-300"
+            />
+          </div>
+          <div className="">
+            <label htmlFor="Author">Author</label>
+            <br />
+            <input
+              type="text"
+              defaultValue={singleBookData?.data?.Author}
+              {...register("Author")}
+              placeholder="Author"
+              className="border border-blue-300 p-2 rounded-md my-2 w-full outline-blue-300"
+            />
+          </div>
+          <div className="">
+            <label htmlFor="Genre">Genre</label>
+            <br />
+            <input
+              type="text"
+              defaultValue={singleBookData?.data?.Genre}
+              {...register("Genre")}
+              placeholder="Genre"
+              className="border border-blue-300 p-2 rounded-md my-2 w-full outline-blue-300"
+            />
+          </div>
+          <div className="hidden">
+            <label htmlFor="AuthorId">AuthorId</label>
+            <br />
+            <input
+              type="text"
+              value={singleBookData?.data?.AuthorId}
+              {...register("AuthorId")}
+              placeholder="Author Id"
+              className="border border-blue-300 p-2 rounded-md my-2 w-full outline-blue-300"
+            />
+          </div>
+          <input
+            className="bg-blue-400 w-full mt-5 py-2 rounded-md text-white font-bold hover:bg-blue-500"
+            type="submit"
+            value="Update"
+          />
+        </form>
       </div>
     </div>
   );

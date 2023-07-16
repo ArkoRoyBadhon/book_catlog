@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-misused-promises */
@@ -18,7 +20,7 @@ interface IBook {
 
 const AddBook = () => {
   const [createBook, {isSuccess, isError}] = useCreateBookMutation();
-  const { user } = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state: { user: any; }) => state.user);
 
   const navigate = useNavigate()
 
@@ -52,7 +54,6 @@ const AddBook = () => {
     createBook(bookInfo)
   };
 
-  console.log("Private", user);
 
   if(user.email === null) {
     console.log(user.email);

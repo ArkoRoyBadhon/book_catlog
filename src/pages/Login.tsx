@@ -54,8 +54,6 @@ const Login = () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       localStorage.setItem("access_token", tokenRetrive);
       dispatch(setAccessToken(tokenRetrive));
-      console.log("pure tokrn", tokenRetrive);
-      console.log("redux tokrn", token);
 
       navigate("/");
 
