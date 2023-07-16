@@ -37,6 +37,7 @@ const AddBook = () => {
 
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<IBook>();
@@ -52,6 +53,7 @@ const AddBook = () => {
       data: jsonData,
     };
     createBook(bookInfo)
+    reset();
   };
 
 

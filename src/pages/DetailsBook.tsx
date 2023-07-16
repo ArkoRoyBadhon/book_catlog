@@ -15,6 +15,8 @@ import {
 import { IBook } from "./AllBook";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
+import { useAppDispatch } from "../redux/hook";
+import { addToWishList } from "../redux/features/wishlist/wishlistSlice";
 const DetailsBook = () => {
   const [reviewVal, setReviewVal] = useState<string>("");
   const [bookID, setBookID] = useState<string | undefined>();
@@ -25,6 +27,8 @@ const DetailsBook = () => {
 
   const [postReview, { isSuccess: isSuccessReview }] = usePostReviewMutation();
 
+  const dispatch = useAppDispatch()
+ 
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
@@ -61,12 +65,11 @@ const DetailsBook = () => {
 
     const reviewData = {
       id: bookID,
-      data: {data: reviewVal}
-    }
+      data: { data: reviewVal },
+    };
 
     console.log("ReviewDD", reviewData);
-    
-    
+
     await postReview(reviewData);
   };
 
@@ -78,21 +81,31 @@ const DetailsBook = () => {
           const date = new Date(item?.PublicationDate);
           const formattedDate = format(date, "dd MMM yyyy, HH:mm:ss");
           console.log(item?.reviews);
-          
+
           return (
             <div key={item?._id}>
               <hr />
-              <div className="flex gap-5 my-5">
-                <Link to={`/editbook/${item?._id}`}>
-                  <div className="rounded-md py-2 px-5 bg-blue-400 hover:bg-blue-500 cursor-pointer">
-                    Edit
+              <div className="flex justify-between my-5">
+                <div className="flex gap-5 my-5">
+                  <Link to={`/editbook/${item?._id}`}>
+                    <div className="rounded-md py-2 px-5 bg-blue-400 hover:bg-blue-500 cursor-pointer">
+                      Edit
+                    </div>
+                  </Link>
+                  <div
+                    onClick={() => handleDeleteBook(item?._id)}
+                    className="rounded-md py-2 px-5 bg-red-400 hover:bg-red-500 cursor-pointer"
+                  >
+                    Delete
                   </div>
-                </Link>
-                <div
-                  onClick={() => handleDeleteBook(item?._id)}
-                  className="rounded-md py-2 px-5 bg-red-400 hover:bg-red-500 cursor-pointer"
-                >
-                  Delete
+                </div>
+                <div className="flex gap-5 my-5">
+                  <div
+                    onClick={() => dispatch(addToWishList(item))}
+                    className="rounded-md py-2 px-5 bg-red-400 hover:bg-red-500 cursor-pointer"
+                  >
+                    Add To WishList
+                  </div>
                 </div>
               </div>
               <hr />
@@ -120,7 +133,9 @@ const DetailsBook = () => {
                   <input
                     type="text"
                     name="review"
-                    onChange={(e) => {setReviewVal(e.target.value), setBookID(item?._id)}}
+                    onChange={(e) => {
+                      setReviewVal(e.target.value), setBookID(item?._id);
+                    }}
                     required
                     placeholder="Leave a comment"
                     className="border border-blue-300 p-2 rounded-md my-2 w-full outline-blue-300"
@@ -134,15 +149,13 @@ const DetailsBook = () => {
 
                 <div className="">
                   <h5 className="mt-5 font-bold">Reviews</h5>
-                  {
-                    item?.reviews.map((review: string, j: number) => {
-                      return (
-                        <div key={j} className="mt-3 text-md">
-                          {`>`} {review}
-                        </div>
-                      )
-                    })
-                  }
+                  {item?.reviews.map((review: string, j: number) => {
+                    return (
+                      <div key={j} className="mt-3 text-md">
+                        {`>`} {review}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>

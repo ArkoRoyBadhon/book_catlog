@@ -1,17 +1,24 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import { useState } from "react";
 import booklogo from "../assets/Book.png";
 import { BiSolidUserCircle } from "react-icons/bi";
-import { FaSearch } from "react-icons/fa";
+import { GiBookmark } from "react-icons/gi";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useGetUserQuery } from "../redux/features/user/userApi";
-import { useAppDispatch } from "../redux/hook";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { setLoggedInfo } from "../redux/features/user/userSlice";
 
 const Navbar = () => {
+  const [wishlist, setWishlist] = useState(false);
+  const [runningbook, setRunningbook] = useState(false);
+
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { data: userData, isSuccess } = useGetUserQuery(undefined);
   const dispacth = useAppDispatch();
+  const { total } = useAppSelector((state) => state.wishlist);
+
 
   if (isSuccess) {
     dispacth(setLoggedInfo(userData.data));
@@ -45,8 +52,40 @@ const Navbar = () => {
           </div>
           <div className="">
             <ul className="flex gap-5 justify-center">
-              <li className="mt-1 mr-5 cursor-pointer">
-                <FaSearch size={22} />
+              <Link to="/wishlist">
+                <li
+                  onMouseOver={() => setWishlist(true)}
+                  onMouseOut={() => setWishlist(false)}
+                  className="mt-1 mr-5 cursor-pointer relative"
+                >
+                  <AiOutlineShoppingCart size={22} />
+                  <div className="absolute bg-green-400 w-5 rounded-full flex justify-center items-center -top-5 -left-2">{total}</div>
+                  <div
+                    className={`${
+                      wishlist
+                        ? "absolute bg-slate-300 w-20 p-1 rouneded-md -bottom-10 -left-6"
+                        : "hidden"
+                    }`}
+                  >
+                    Wish List
+                  </div>
+                </li>
+              </Link>
+              <li
+                onMouseOver={() => setRunningbook(true)}
+                onMouseOut={() => setRunningbook(false)}
+                className="mt-1 mr-5 cursor-pointer relative"
+              >
+                <GiBookmark size={22} />
+                <div
+                  className={`${
+                    runningbook
+                      ? "absolute bg-slate-300 w-20 p-1 rouneded-md -bottom-17 -left-6"
+                      : "hidden"
+                  }`}
+                >
+                  Continue Books
+                </div>
               </li>
               {userData?.success === true ? (
                 <li className="font-bold text-[16px] cursor-pointer">
