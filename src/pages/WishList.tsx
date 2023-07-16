@@ -15,7 +15,7 @@ const WishList = () => {
   
 
   return (
-    <div className="max-w-screen-xl mx-auto pt-10">
+    <div className="max-w-screen-xl mx-auto pt-10 min-h-[60vh]">
       <h2 className="font-bold">Wish List</h2>
 
       <div className="mt-20 w-full">
@@ -25,7 +25,7 @@ const WishList = () => {
 
           return (
             <div
-              className=" h-fit p-3 rounded-md flex justify-between items-center border-b-4"
+              className="  p-3 rounded-md flex justify-between items-center border-b-4"
               key={i}
             >
               <div className="">

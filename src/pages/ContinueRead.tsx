@@ -15,7 +15,7 @@ const ContinueRead = () => {
   const dispatch = useAppDispatch()
 
   return (
-    <div className="max-w-screen-xl mx-auto pt-10">
+    <div className="max-w-screen-xl mx-auto pt-10 min-h-[60vh]">
       <h2 className="font-bold">Read List</h2>
 
       <div className="mt-20 w-full">

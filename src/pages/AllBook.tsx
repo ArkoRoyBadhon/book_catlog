@@ -51,7 +51,7 @@ const AllBooks = () => {
     };
 
     return (
-      <div className="max-w-screen-xl mx-auto mb-10">
+      <div className="max-w-screen-xl mx-auto mb-10 min-h-[60vh]">
         <div className="mt-5 mx-2 md:mx-0">
           <h4 className="font-semibold">Filter Options</h4>
 
@@ -76,7 +76,7 @@ const AllBooks = () => {
             </label>
             <input type="submit" hidden name="search" id="search" />
           </form>
-          <div className="flex mt-2 gap-10">
+          <div className="flex flex-col md:flex-row mt-2 gap-3 md:gap-10">
             <div className="">
               <select
                 className="border border-blue-200 py-2 px-5 rounded outline-blue-400"

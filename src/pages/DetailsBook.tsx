@@ -53,7 +53,7 @@ const DetailsBook = () => {
     navigate("/allbooks");
   }
   if (isErrorDelete) {
-    toast("Something went wrong or you do not have ownership of this book", {
+    toast("You do not have ownership of this book", {
       toastId: "book error delete",
     });
   }
