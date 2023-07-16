@@ -10,38 +10,45 @@ const bookApi = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["book"]
+      invalidatesTags: ["book"],
     }),
     getAllBooks: builder.query({
-      query: () => `api/v1/book/getallbooks?sortby=PublicationDate&orderBy=asc`,
-      providesTags: ["book"]
+      query: (searchValue) => ({
+        url: `api/v1/book/getallbooks`,
+        params: {
+          sortBy: "PublicationDate",
+          sortOrder: "desc",
+          searchTerm: searchValue,
+        },
+      }),
+      providesTags: ["book"],
     }),
     deleteBook: builder.mutation({
       query: (id: string | undefined) => ({
         url: `/api/v1/book/deletebook/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["book"]
+      invalidatesTags: ["book"],
     }),
     getSingleBook: builder.query({
       query: (id: string | undefined) => `api/v1/book/getbook/${id}`,
-      providesTags: ["book"]
+      providesTags: ["book"],
     }),
     updateBook: builder.mutation({
-      query: ({id, data}) => ({
+      query: ({ id, data }) => ({
         url: `/api/v1/book/updatebook/${id}`,
         method: "PATCH",
-        body: data
+        body: data,
       }),
-      invalidatesTags: ["book"]
+      invalidatesTags: ["book"],
     }),
     postReview: builder.mutation({
-      query: ({id, data}) => ({
+      query: ({ id, data }) => ({
         url: `/api/v1/book/postReview/${id}`,
         method: "PATCH",
-        body: data
+        body: data,
       }),
-      invalidatesTags: ["review", "book"]
+      invalidatesTags: ["review", "book"],
     }),
   }),
 });
@@ -52,5 +59,5 @@ export const {
   useDeleteBookMutation,
   useGetSingleBookQuery,
   useUpdateBookMutation,
-  usePostReviewMutation
+  usePostReviewMutation,
 } = bookApi;
