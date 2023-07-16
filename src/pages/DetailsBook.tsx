@@ -5,18 +5,25 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   useDeleteBookMutation,
   useGetAllBooksQuery,
+  usePostReviewMutation,
 } from "../redux/features/book/bookApi";
 import { IBook } from "./AllBook";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
 const DetailsBook = () => {
+  const [reviewVal, setReviewVal] = useState<string>("");
+  const [bookID, setBookID] = useState<string | undefined>();
   const { data: booklist, isLoading } = useGetAllBooksQuery(undefined);
 
-  const [deleteBook, { isSuccess: isSuccessDelete }] = useDeleteBookMutation();
+  const [deleteBook, { isSuccess: isSuccessDelete, isError: isErrorDelete }] =
+    useDeleteBookMutation();
+
+  const [postReview, { isSuccess: isSuccessReview }] = usePostReviewMutation();
 
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -35,6 +42,11 @@ const DetailsBook = () => {
     });
     navigate("/allbooks");
   }
+  if (isErrorDelete) {
+    toast("Something went wrong or you do not have ownership of this book", {
+      toastId: "book error delete",
+    });
+  }
 
   const selectedItem: IBook = booklist?.data?.filter(
     (item: IBook) => item?._id === id
@@ -44,6 +56,20 @@ const DetailsBook = () => {
     await deleteBook(id);
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const reviewData = {
+      id: bookID,
+      data: {data: reviewVal}
+    }
+
+    console.log("ReviewDD", reviewData);
+    
+    
+    await postReview(reviewData);
+  };
+
   return (
     <div className="max-w-screen-lg mx-auto mt-10">
       <h3 className="font-bold">Detail Page</h3>
@@ -51,6 +77,8 @@ const DetailsBook = () => {
         {selectedItem.map((item: IBook) => {
           const date = new Date(item?.PublicationDate);
           const formattedDate = format(date, "dd MMM yyyy, HH:mm:ss");
+          console.log(item?.reviews);
+          
           return (
             <div key={item?._id}>
               <hr />
@@ -75,14 +103,47 @@ const DetailsBook = () => {
                 Publish Date: {formattedDate}
               </div>
               <div className="text-lg font-semibold mt-2">
-                Author: {item?.Title}
+                Author: {item?.Author}
               </div>
               <div className="text-lg font-semibold mt-2">
-                Author: {item?.Genre}
+                Genre: {item?.Genre}
               </div>
               <div className="mt-5">
                 {" "}
                 <span className="font-semibold">Description: </span> description
+              </div>
+              <div className=" mt-20">
+                <h4 className="text-xl font-semibold underline">
+                  Review Section
+                </h4>
+                <form action="" className="" onSubmit={handleSubmit}>
+                  <input
+                    type="text"
+                    name="review"
+                    onChange={(e) => {setReviewVal(e.target.value), setBookID(item?._id)}}
+                    required
+                    placeholder="Leave a comment"
+                    className="border border-blue-300 p-2 rounded-md my-2 w-full outline-blue-300"
+                  />
+                  <input
+                    type="submit"
+                    value="Submit"
+                    className="bg-blue-400 hover:bg-blue-500 py-2 px-5 rounded-md mt-2"
+                  />
+                </form>
+
+                <div className="">
+                  <h5 className="mt-5 font-bold">Reviews</h5>
+                  {
+                    item?.reviews.map((review: string, j: number) => {
+                      return (
+                        <div key={j} className="mt-3 text-md">
+                          {`>`} {review}
+                        </div>
+                      )
+                    })
+                  }
+                </div>
               </div>
             </div>
           );

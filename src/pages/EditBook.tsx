@@ -36,7 +36,7 @@ const EditBook = () => {
     });
   }
   if (isError) {
-    toast("Something went wrong", {
+    toast("Something went wrong or you do not have ownership of this book", {
       toastId: "book-creation-error",
     });
   }
@@ -59,8 +59,6 @@ const EditBook = () => {
       id,
       data: jsonData,
     };
-
-    console.log("Out", jsonData);
 
     updateBook(bookInfo);
   };

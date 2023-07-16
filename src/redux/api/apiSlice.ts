@@ -21,6 +21,6 @@ export const api = createApi({
     },
   }),
   refetchOnMountOrArgChange: 30,
-  tagTypes: ["user", "book"],
+  tagTypes: ["user", "book", "review"],
   endpoints: () => ({}),
 });
