@@ -17,7 +17,7 @@ interface Iinput {
 
 const Login = () => {
   const [loginUser, { isLoading, isSuccess }] = useLoginUserMutation();
-  const { accessToken: token, user } = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -34,8 +34,7 @@ const Login = () => {
 
   const {
     register,
-    handleSubmit,
-    formState: { errors },
+    handleSubmit
   } = useForm<Iinput>();
   const onSubmit: SubmitHandler<Iinput> = async (data) => {
     const jsonData = {
@@ -54,7 +53,7 @@ const Login = () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       localStorage.setItem("access_token", tokenRetrive);
       dispatch(setAccessToken(tokenRetrive));
-      window.location.reload();
+      // window.location.reload();
       navigate("/");
     }
   };

@@ -26,7 +26,7 @@ const Navbar = () => {
   }
   const logOutHandler = () => {
     localStorage.setItem("access_token", "");
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (

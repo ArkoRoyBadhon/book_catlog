@@ -30,7 +30,7 @@ const DetailsBook = () => {
   const [deleteBook, { isSuccess: isSuccessDelete, isError: isErrorDelete }] =
     useDeleteBookMutation();
 
-  const [postReview, { isSuccess: isSuccessReview }] = usePostReviewMutation();
+  const [postReview] = usePostReviewMutation();
 
   const { email } = useAppSelector((state) => state.user.user);
   const dispatch = useAppDispatch()

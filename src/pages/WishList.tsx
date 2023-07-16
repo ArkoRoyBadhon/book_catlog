@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import React from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { format } from "date-fns";
 import { IBook } from "./AllBook";

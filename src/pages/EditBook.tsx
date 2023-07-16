@@ -44,7 +44,6 @@ const EditBook = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
   } = useForm<IBook>();
   const onSubmitEdit: SubmitHandler<IBook> = (data) => {
     const jsonData = {

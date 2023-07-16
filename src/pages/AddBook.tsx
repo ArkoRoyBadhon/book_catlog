@@ -7,7 +7,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useAppSelector } from "../redux/hook";
 import { useCreateBookMutation } from "../redux/features/book/bookApi";
-import { useNavigate } from "react-router-dom";
 
 interface IBook {
   Title: string;
@@ -20,9 +19,8 @@ interface IBook {
 
 const AddBook = () => {
   const [createBook, {isSuccess, isError}] = useCreateBookMutation();
-  const { user } = useAppSelector((state: { user: any; }) => state.user);
+  const { user } = useAppSelector((state: { user: any }) => state.user);
 
-  const navigate = useNavigate()
 
     if (isSuccess) {
       toast("Book created succesfully!", {
@@ -39,7 +37,6 @@ const AddBook = () => {
     register,
     reset,
     handleSubmit,
-    formState: { errors },
   } = useForm<IBook>();
   const onSubmit: SubmitHandler<IBook> = (data) => {
     const jsonData = {
@@ -59,7 +56,6 @@ const AddBook = () => {
 
   if(user.email === null) {
     console.log(user.email);
-    // navigate("/")
   }
 
   
