@@ -27,9 +27,15 @@ const readListSlice = createSlice({
         state.total++
       }
     },
+    removeFromReadList: (state, action) => {
+      state.books = state.books.filter(
+        (book) => book?._id !== action.payload._id
+      );
+        state.total--
+    },
   },
 });
 
-export const { addToReadList } = readListSlice.actions;
+export const { addToReadList,removeFromReadList } = readListSlice.actions;
 
 export default readListSlice.reducer;

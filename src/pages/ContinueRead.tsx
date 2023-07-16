@@ -1,15 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import React from "react";
-import { useAppSelector } from "../redux/hook";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { format } from "date-fns";
 import { IBook } from "./AllBook";
 import { Link } from "react-router-dom";
+import { removeFromReadList } from "../redux/features/readlist/readlistSlice";
 
 const ContinueRead = () => {
   const { books } = useAppSelector((state) => state.readlist);
+  const dispatch = useAppDispatch()
 
   return (
     <div className="max-w-screen-xl mx-auto pt-10">
@@ -39,7 +42,7 @@ const ContinueRead = () => {
                     View
                   </div>
                 </Link>
-                <div className="bg-red-400 hover:bg-red-500  py-2 px-5 mt-2 text-center rounded-md cursor-pointer">
+                <div onClick={()=> dispatch(removeFromReadList(item))} className="bg-red-400 hover:bg-red-500  py-2 px-5 mt-2 text-center rounded-md cursor-pointer">
                   Delete
                 </div>
               </div>
