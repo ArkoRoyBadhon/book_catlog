@@ -7,7 +7,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useCreateUserMutation } from "../redux/features/user/userApi";
 import { toast } from "react-toastify";
-import { useState } from "react";
 import { useAppSelector } from "../redux/hook";
 
 interface Iinput {

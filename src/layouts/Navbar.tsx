@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import React from "react";
 import booklogo from "../assets/Book.png";
 import { BiSolidUserCircle } from "react-icons/bi";
 import { FaSearch } from "react-icons/fa";
@@ -13,10 +12,6 @@ const Navbar = () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { data: userData, isSuccess } = useGetUserQuery(undefined);
   const dispacth = useAppDispatch();
-
-  // if (isLoading) {
-  //   console.log("pending");
-  // }
 
   if (isSuccess) {
     dispacth(setLoggedInfo(userData.data));

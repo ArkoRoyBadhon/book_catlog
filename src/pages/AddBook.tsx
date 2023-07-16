@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useAppSelector } from "../redux/hook";
 import { useCreateBookMutation } from "../redux/features/book/bookApi";
+import { useNavigate } from "react-router-dom";
 
 interface IBook {
   Title: string;
@@ -18,6 +19,8 @@ interface IBook {
 const AddBook = () => {
   const [createBook, {isSuccess, isError}] = useCreateBookMutation();
   const { user } = useAppSelector((state) => state.user);
+
+  const navigate = useNavigate()
 
     if (isSuccess) {
       toast("Book created succesfully!", {
@@ -48,6 +51,15 @@ const AddBook = () => {
     };
     createBook(bookInfo)
   };
+
+  console.log("Private", user);
+
+  if(user.email === null) {
+    console.log(user.email);
+    // navigate("/")
+  }
+
+  
 
   return (
     <div className="">

@@ -59,7 +59,7 @@ const Login = () => {
 
       navigate("/");
 
-      window.location.reload();
+      // window.location.reload();
     }
   };
 

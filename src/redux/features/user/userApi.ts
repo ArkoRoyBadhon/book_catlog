@@ -9,6 +9,7 @@ const userApi = api.injectEndpoints({
       query: () => ({
         url: `/api/v1/auth/user`,
       }),
+      providesTags: ["user"]
     }),
     createUser: builder.mutation({
       query: ({ data }) => ({
@@ -16,6 +17,7 @@ const userApi = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["user"]
     }),
     loginUser: builder.mutation({
       query: ({ data }) => ({
@@ -23,6 +25,7 @@ const userApi = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["user"]
     }),
   }),
 });
