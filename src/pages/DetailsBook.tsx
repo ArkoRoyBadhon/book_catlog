@@ -15,8 +15,9 @@ import {
 import { IBook } from "./AllBook";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
-import { useAppDispatch } from "../redux/hook";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { addToWishList } from "../redux/features/wishlist/wishlistSlice";
+import { addToReadList } from "../redux/features/readlist/readlistSlice";
 const DetailsBook = () => {
   const [reviewVal, setReviewVal] = useState<string>("");
   const [bookID, setBookID] = useState<string | undefined>();
@@ -27,6 +28,7 @@ const DetailsBook = () => {
 
   const [postReview, { isSuccess: isSuccessReview }] = usePostReviewMutation();
 
+  const { email } = useAppSelector((state) => state.user.user);
   const dispatch = useAppDispatch()
  
   const { id } = useParams<{ id: string }>();
@@ -85,7 +87,7 @@ const DetailsBook = () => {
           return (
             <div key={item?._id}>
               <hr />
-              <div className="flex justify-between my-5">
+              <div className={`flex justify-between my-5 ${email ? "" : "hidden"}`}>
                 <div className="flex gap-5 my-5">
                   <Link to={`/editbook/${item?._id}`}>
                     <div className="rounded-md py-2 px-5 bg-blue-400 hover:bg-blue-500 cursor-pointer">
@@ -100,6 +102,12 @@ const DetailsBook = () => {
                   </div>
                 </div>
                 <div className="flex gap-5 my-5">
+                  <div
+                    onClick={() => dispatch(addToReadList(item))}
+                    className="rounded-md py-2 px-5 bg-red-400 hover:bg-red-500 cursor-pointer"
+                  >
+                    Read List
+                  </div>
                   <div
                     onClick={() => dispatch(addToWishList(item))}
                     className="rounded-md py-2 px-5 bg-red-400 hover:bg-red-500 cursor-pointer"

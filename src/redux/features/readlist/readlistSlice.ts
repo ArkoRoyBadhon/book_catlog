@@ -3,21 +3,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IBook } from "../../../pages/AllBook";
 
-interface IWishList {
+interface IReadList {
   books: IBook[];
   total: number;
 }
 
-const initialState: IWishList = {
+const initialState: IReadList = {
   books: [],
   total: 0,
 };
 
-const wishlistSlice = createSlice({
-  name: "wishlist",
+const readListSlice = createSlice({
+  name: "readlist",
   initialState,
   reducers: {
-    addToWishList: (state, action) => {
+    addToReadList: (state, action) => {
       const existing = state.books.find(
         (book) => book?._id === action.payload._id
       );
@@ -30,6 +30,6 @@ const wishlistSlice = createSlice({
   },
 });
 
-export const { addToWishList } = wishlistSlice.actions;
+export const { addToReadList } = readListSlice.actions;
 
-export default wishlistSlice.reducer;
+export default readListSlice.reducer;

@@ -10,6 +10,7 @@ import AllBooks from "../pages/AllBook";
 import DetailsBook from "../pages/DetailsBook";
 import EditBook from "../pages/EditBook";
 import WishList from "../pages/WishList";
+import ContinueRead from "../pages/ContinueRead";
 
 const routes = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const routes = createBrowserRouter([
       {
         path: "/wishlist",
         element: <WishList />,
+      },
+      {
+        path: "/continueread",
+        element: <ContinueRead />,
       },
     ],
   },

@@ -20,6 +20,7 @@ const Home = () => {
     isSuccess,
   } = useGetAllBooksQuery(undefined);
 
+  console.log(booklist);
 
   if (isLoading) {
     return <div className="h-[100vh] w-[100vw] flex justify-center items-center">Loading ....</div>;

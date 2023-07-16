@@ -17,8 +17,7 @@ const Navbar = () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { data: userData, isSuccess } = useGetUserQuery(undefined);
   const dispacth = useAppDispatch();
-  const { total } = useAppSelector((state) => state.wishlist);
-
+  const { wishlist: wishData, readlist  } = useAppSelector((state) => state);
 
   if (isSuccess) {
     dispacth(setLoggedInfo(userData.data));
@@ -59,7 +58,9 @@ const Navbar = () => {
                   className="mt-1 mr-5 cursor-pointer relative"
                 >
                   <AiOutlineShoppingCart size={22} />
-                  <div className="absolute bg-green-400 w-5 rounded-full flex justify-center items-center -top-5 -left-2">{total}</div>
+                  <div className="absolute bg-green-400 w-5 rounded-full flex justify-center items-center -top-5 -left-2">
+                    {wishData.total}
+                  </div>
                   <div
                     className={`${
                       wishlist
@@ -71,22 +72,27 @@ const Navbar = () => {
                   </div>
                 </li>
               </Link>
-              <li
-                onMouseOver={() => setRunningbook(true)}
-                onMouseOut={() => setRunningbook(false)}
-                className="mt-1 mr-5 cursor-pointer relative"
-              >
-                <GiBookmark size={22} />
-                <div
-                  className={`${
-                    runningbook
-                      ? "absolute bg-slate-300 w-20 p-1 rouneded-md -bottom-17 -left-6"
-                      : "hidden"
-                  }`}
+              <Link to="/continueread">
+                <li
+                  onMouseOver={() => setRunningbook(true)}
+                  onMouseOut={() => setRunningbook(false)}
+                  className="mt-1 mr-5 cursor-pointer relative"
                 >
-                  Continue Books
-                </div>
-              </li>
+                  <GiBookmark size={22} />
+                  <div className="absolute bg-green-400 w-5 rounded-full flex justify-center items-center -top-5 -left-2">
+                    {readlist.total}
+                  </div>
+                  <div
+                    className={`${
+                      runningbook
+                        ? "absolute bg-slate-300 w-20 p-1 rouneded-md -bottom-17 -left-6"
+                        : "hidden"
+                    }`}
+                  >
+                    Read List
+                  </div>
+                </li>
+              </Link>
               {userData?.success === true ? (
                 <li className="font-bold text-[16px] cursor-pointer">
                   <Link onClick={() => logOutHandler()} to="/">

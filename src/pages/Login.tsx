@@ -56,8 +56,6 @@ const Login = () => {
       dispatch(setAccessToken(tokenRetrive));
 
       navigate("/");
-
-      // window.location.reload();
     }
   };
 
