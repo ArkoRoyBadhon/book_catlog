@@ -96,14 +96,27 @@ const AddBook = () => {
             />
           </div>
           <div className="">
-            <label htmlFor="firstName">Genre</label>
+            <label htmlFor="Genre">Genre</label>
             <br />
-            <input
+            <select
+                className="border border-blue-200 py-2 px-5 rounded outline-blue-400 w-full"
+                id="selectOption"
+                {...register("Genre")}
+                // value={selectedGenre}
+                // onChange={(e) => setselectedGenre(e.target.value)}
+              >
+                <option value="">-- Select Genre--</option>
+                <option value="SiFi">SiFi</option>
+                <option value="Thriller">Thriller</option>
+                <option value="Drama">Drama</option>
+                <option value="Horror">Horror</option>
+              </select>
+            {/* <input
               type="text"
               {...register("Genre")}
               placeholder="Genre"
               className="border border-blue-300 p-2 rounded-md my-2 w-full outline-blue-300"
-            />
+            /> */}
           </div>
           <div className="hidden">
             <label htmlFor="firstName">AuthorId</label>

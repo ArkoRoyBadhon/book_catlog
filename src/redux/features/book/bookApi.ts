@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { api } from "../../api/apiSlice";
@@ -13,12 +14,14 @@ const bookApi = api.injectEndpoints({
       invalidatesTags: ["book"],
     }),
     getAllBooks: builder.query({
-      query: (searchValue) => ({
+      query: ({...option}) => ({
         url: `api/v1/book/getallbooks`,
         params: {
           sortBy: "PublicationDate",
           sortOrder: "desc",
-          searchTerm: searchValue,
+          searchTerm: option.finalValue,
+          Genre: option.selectedGenre,
+          PublicationYear: option.selectedYear,
         },
       }),
       providesTags: ["book"],

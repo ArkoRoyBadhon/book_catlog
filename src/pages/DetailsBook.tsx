@@ -21,7 +21,11 @@ import { addToReadList } from "../redux/features/readlist/readlistSlice";
 const DetailsBook = () => {
   const [reviewVal, setReviewVal] = useState<string>("");
   const [bookID, setBookID] = useState<string | undefined>();
-  const { data: booklist, isLoading } = useGetAllBooksQuery(undefined);
+  const { data: booklist, isLoading } = useGetAllBooksQuery({
+    finalValue: "",
+    selectedGenre: "", 
+    selectedYear: "", 
+  });
 
   const [deleteBook, { isSuccess: isSuccessDelete, isError: isErrorDelete }] =
     useDeleteBookMutation();

@@ -14,9 +14,12 @@ const Home = () => {
     data: booklist,
     isLoading,
     isSuccess,
-  } = useGetAllBooksQuery(undefined);
+  } = useGetAllBooksQuery({
+    finalValue: "",
+    selectedGenre: "", 
+    selectedYear: "", 
+  });
 
-  console.log(booklist);
 
   if (isLoading) {
     return (
