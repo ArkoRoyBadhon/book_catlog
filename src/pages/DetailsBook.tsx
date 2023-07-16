@@ -77,8 +77,8 @@ const DetailsBook = () => {
 
   return (
     <div className="max-w-screen-lg mx-auto mt-10">
-      <h3 className="font-bold">Detail Page</h3>
-      <div className="mt-5">
+      <h3 className="font-bold mx-2 md:mx-0">Detail Page</h3>
+      <div className="mt-5 mx-2 md:mx-0">
         {selectedItem.map((item: IBook) => {
           const date = new Date(item?.PublicationDate);
           const formattedDate = format(date, "dd MMM yyyy, HH:mm:ss");
@@ -87,7 +87,7 @@ const DetailsBook = () => {
           return (
             <div key={item?._id}>
               <hr />
-              <div className={`flex justify-between my-5 ${email ? "" : "hidden"}`}>
+              <div className={`flex flex-col md:flex-row justify-between items-center my-5 ${email ? "" : "hidden"}`}>
                 <div className="flex gap-5 my-5">
                   <Link to={`/editbook/${item?._id}`}>
                     <div className="rounded-md py-2 px-5 bg-blue-400 hover:bg-blue-500 cursor-pointer">

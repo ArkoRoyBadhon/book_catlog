@@ -35,11 +35,11 @@ const AllBooks = () => {
 
     return (
       <div className="max-w-screen-xl mx-auto mb-10">
-        <div className="mt-5">
+        <div className="mt-5 mx-2 md:mx-0">
           <h4 className="font-semibold">Filter Options</h4>
         </div>
 
-        <div className="grid grid-cols-4 gap-10 mt-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-20 mx-2 md:mx-0">
           {booklist?.data.map((item: Partial<IBook>, i: number) => {
             const date = new Date(item?.PublicationDate);
             const formattedDate = format(date, "dd MMM yyyy, HH:mm:ss");

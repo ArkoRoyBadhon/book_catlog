@@ -68,7 +68,7 @@ const Login = () => {
       <div className="flex justify-center items-center">
         <form
           style={{ boxShadow: "0 2px 8px rgba(0.2, 0.4, 0.2, 0.4)" }}
-          className=" w-[450px] py-10 px-5 rounded-md "
+          className=" w-[450px] py-10 px-5 rounded-md mt-10 mx-3 md:mx-0"
           onSubmit={handleSubmit(onSubmit)}
         >
           <h3 className="text-2xl font-bold text-center text-blue-600 mb-10">
