@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { useAppDispatch, useAppSelector } from "../redux/hook";
-import { format } from "date-fns";
+// import { format } from "date-fns";
 import { IBook } from "./AllBook";
 import { Link } from "react-router-dom";
 import { removeFromWishList } from "../redux/features/wishlist/wishlistSlice";
@@ -19,8 +19,8 @@ const WishList = () => {
 
       <div className="mt-20 w-full">
         {books.map((item: Partial<IBook>, i: number) => {
-          const date = new Date(item?.PublicationDate);
-          const formattedDate = format(date, "dd MMM yyyy, HH:mm:ss");
+          // const date = new Date(item?.PublicationDate);
+          // const formattedDate = format(date, "dd MMM yyyy, HH:mm:ss");
 
           return (
             <div
@@ -29,7 +29,8 @@ const WishList = () => {
             >
               <div className="">
                 <h4 className="text-md font-bold">Book Title: {item.Title}</h4>
-                <p className="text-[12px]">{formattedDate}</p>
+                {/* <p className="text-[12px]">{formattedDate}</p> */}
+                <p className="text-[12px]">{item?.PublicationDate}</p>
               </div>
               <p className="text-[16px] font-semibold">
                 Category: {item?.Genre}
