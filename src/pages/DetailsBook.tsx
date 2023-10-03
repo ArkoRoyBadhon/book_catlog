@@ -13,7 +13,7 @@ import {
   usePostReviewMutation,
 } from "../redux/features/book/bookApi";
 import { IBook } from "./AllBook";
-import { format } from "date-fns";
+// import { format } from "date-fns";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { addToWishList } from "../redux/features/wishlist/wishlistSlice";
@@ -111,8 +111,8 @@ const DetailsBook = () => {
       <h3 className="font-bold mx-2 md:mx-0">Detail Page</h3>
       <div className="mt-5 mx-2 md:mx-0">
         {selectedItem.map((item: IBook) => {
-          const date = new Date(item?.PublicationDate);
-          const formattedDate = format(date, "dd MMM yyyy, HH:mm:ss");
+          // const date = new Date(item?.PublicationDate);
+          // const formattedDate = format(date, "dd MMM yyyy, HH:mm:ss");
           // console.log(item?.reviews);
 
           return (
@@ -170,8 +170,11 @@ const DetailsBook = () => {
                 Title: {item?.Title}
               </div>
               <div className="text-[12px] font-semibold">
-                Publish Date: {formattedDate}
+                Publish Date: {item?.PublicationDate}
               </div>
+              {/* <div className="text-[12px] font-semibold">
+                Publish Date: {formattedDate}
+              </div> */}
               <div className="text-lg font-semibold mt-2">
                 Author: {item?.Author}
               </div>

@@ -17,7 +17,7 @@ interface IBook {
   Title: string;
   Author: string;
   Genre: string;
-  Publicationdate: Date;
+  PublicationDate: string;
   AuthorId: string;
   reviews: string[];
 }
@@ -41,14 +41,12 @@ const EditBook = () => {
     });
   }
 
-  const {
-    register,
-    handleSubmit,
-  } = useForm<IBook>();
+  const { register, handleSubmit } = useForm<IBook>();
   const onSubmitEdit: SubmitHandler<IBook> = (data) => {
     const jsonData = {
       Title: data.Title !== "" ? data.Title : singleBookData?.data?.Title,
       Author: data.Author !== "" ? data.Author : singleBookData?.data?.Author,
+      PublicationDate: data.PublicationDate !== "" ? data.PublicationDate : singleBookData?.data?.PublicationDate,
       Genre: data.Genre !== "" ? data.Genre : singleBookData?.data?.Genre,
       AuthorId:
         data.AuthorId !== "" ? data.AuthorId : singleBookData?.data?.AuthorId,
@@ -103,6 +101,17 @@ const EditBook = () => {
             />
           </div>
           <div className="">
+            <label htmlFor="Author">PublicationDate</label>
+            <br />
+            <input
+              type="number"
+              defaultValue={singleBookData?.data?.PublicationDate}
+              {...register("PublicationDate")}
+              placeholder="PublicationDate"
+              className="border border-blue-300 p-2 rounded-md my-2 w-full outline-blue-300"
+            />
+          </div>
+          <div className="">
             <label htmlFor="Genre">Genre</label>
             <br />
             <select
@@ -113,7 +122,9 @@ const EditBook = () => {
               // onChange={(e) => setselectedGenre(e.target.value)}
             >
               {/* <option value={singleBookData?.data?.Author}>-- Select Genre--</option> */}
-              <option value={singleBookData?.data?.Author}>{singleBookData?.data?.Genre}</option>
+              <option value={singleBookData?.data?.Author}>
+                {singleBookData?.data?.Genre}
+              </option>
               <option value="SiFi">SiFi</option>
               <option value="Thriller">Thriller</option>
               <option value="Drama">Drama</option>

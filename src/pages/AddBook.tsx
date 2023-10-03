@@ -66,7 +66,7 @@ const AddBook = () => {
   
 
   return (
-    <div className="pt-10">
+    <div className="pt-10 mx-2 md:mx-0">
       <div className="flex justify-center items-center">
         <form
           style={{ boxShadow: "0 2px 8px rgba(0.2, 0.4, 0.2, 0.4)" }}

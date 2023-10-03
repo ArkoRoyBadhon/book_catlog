@@ -7,7 +7,7 @@ const Footer = () => {
   const {email} = useAppSelector(state => state.user.user)
 
   return (
-    <div className="mt-10 bg-gray-200">
+    <div className="mt-10 bg-gray-200 px-2 md:px-0">
       <div className=" flex justify-between items-center max-w-screen-lg mx-auto">
         <div className="flex flex-col py-[100px]">
           <h4 className="text-xl">Routes</h4>
