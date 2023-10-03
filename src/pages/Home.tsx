@@ -37,8 +37,8 @@ const Home = () => {
           {booklist?.data
             .slice(0, 10)
             .map((item: Partial<IBook>, i: number) => {
-              const date = new Date(item?.PublicationDate);
-              const formattedDate = format(date, "dd MMM yyyy, HH:mm:ss");
+              // const date = new Date(item?.PublicationDate);
+              // const formattedDate = format(date, "dd MMM yyyy, HH:mm:ss");
 
               return (
                 <div
@@ -48,9 +48,10 @@ const Home = () => {
                   <h4 className="text-md font-bold">
                     Book Title: {item.Title}
                   </h4>
-                  <p className="text-[12px]">{formattedDate}</p>
+                  {/* <p className="text-[12px]">{formattedDate}</p> */}
+                  <p className="text-[12px]">PublicationDate: {item?.PublicationDate}</p>
                   <p className="text-[16px] font-semibold">
-                    Category: {item?.Genre}
+                    Genre: {item?.Genre}
                   </p>
                   <p className="text-[] font-semibold">Author: {item.Author}</p>
                   <Link to={`/detailbook/${item?._id}`}>

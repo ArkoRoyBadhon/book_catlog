@@ -1,10 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { createSlice } from "@reduxjs/toolkit";
-import { IBook } from "../../../pages/AllBook";
+
+export type IReadBook = {
+  [x: string]: any;
+  _id?: string;
+  Title: string;
+  Author: string;
+  Genre: string;
+  // status: string;
+  PublicationDate: any;
+  finish?: boolean
+};
 
 interface IReadList {
-  books: IBook[];
+  books: IReadBook[];
   total: number;
 }
 
@@ -23,19 +34,40 @@ const readListSlice = createSlice({
       );
 
       if (!existing) {
-        state.books.push({ ...action.payload });
-        state.total++
+        // state.books.push({ ...action.payload, status: "Read Soon" });
+        state.books.push({ ...action.payload, finish: false });
+        state.total++;
       }
     },
     removeFromReadList: (state, action) => {
       state.books = state.books.filter(
         (book) => book?._id !== action.payload._id
       );
-        state.total--
+      state.total--;
+    },
+    updateReadList: (state, action) => {
+      const updatedBookIndex = state.books.findIndex(
+        (book) => book?._id === action.payload._id
+      );
+
+      console.log("inside payload", action.payload);
+      console.log("updatedBookIndex", updatedBookIndex);
+
+      if (updatedBookIndex !== -1) {
+        // Create a copy of the book with updated properties
+        const updatedBook = {
+          ...state.books[updatedBookIndex],
+          ...action.payload
+        };
+
+        // Replace the old book with the updated book in the array
+        state.books[updatedBookIndex] = updatedBook;
+      }
     },
   },
 });
 
-export const { addToReadList,removeFromReadList } = readListSlice.actions;
+export const { addToReadList, removeFromReadList, updateReadList } =
+  readListSlice.actions;
 
 export default readListSlice.reducer;

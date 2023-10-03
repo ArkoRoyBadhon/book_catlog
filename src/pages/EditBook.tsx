@@ -112,7 +112,8 @@ const EditBook = () => {
               defaultValue={singleBookData?.data?.Genre}
               // onChange={(e) => setselectedGenre(e.target.value)}
             >
-              <option value="">-- Select Genre--</option>
+              {/* <option value={singleBookData?.data?.Author}>-- Select Genre--</option> */}
+              <option value={singleBookData?.data?.Author}>{singleBookData?.data?.Genre}</option>
               <option value="SiFi">SiFi</option>
               <option value="Thriller">Thriller</option>
               <option value="Drama">Drama</option>

@@ -5,13 +5,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://book-catalog-backend-alpha.vercel.app",
+    baseUrl: "http://localhost:5000",
+    // baseUrl: "https://book-catalog-backend-alpha.vercel.app",
     prepareHeaders: (headers) => {
-      // const authState = (getState() as RootState).user
       const Token = localStorage.getItem("access_token");
-      // const Token = authState.accessToken
-      // console.log("Token", authState.accessToken);
-
       if (Token) {
         headers.set("authorization", `Bearer ${Token}`);
       }

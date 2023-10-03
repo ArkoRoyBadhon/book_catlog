@@ -23,8 +23,8 @@ const DetailsBook = () => {
   const [bookID, setBookID] = useState<string | undefined>();
   const { data: booklist, isLoading } = useGetAllBooksQuery({
     finalValue: "",
-    selectedGenre: "", 
-    selectedYear: "", 
+    selectedGenre: "",
+    selectedYear: "",
   });
 
   const [deleteBook, { isSuccess: isSuccessDelete, isError: isErrorDelete }] =
@@ -33,8 +33,10 @@ const DetailsBook = () => {
   const [postReview] = usePostReviewMutation();
 
   const { email } = useAppSelector((state) => state.user.user);
-  const dispatch = useAppDispatch()
- 
+  const { books } = useAppSelector((state) => state.wishlist);
+  const { books: readBooks } = useAppSelector((state) => state.readlist);
+  const dispatch = useAppDispatch();
+
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
@@ -63,7 +65,11 @@ const DetailsBook = () => {
   );
 
   const handleDeleteBook = async (id: string | undefined) => {
-    await deleteBook(id);
+    if (email) {
+      await deleteBook(id);
+    } else {
+      toast.error("Please Login First");
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -74,9 +80,30 @@ const DetailsBook = () => {
       data: { data: reviewVal },
     };
 
-    console.log("ReviewDD", reviewData);
-
+    
     await postReview(reviewData);
+  };
+
+  const handleWithList = (item: IBook) => {
+    const exists = books.filter((book: IBook) => book?._id === item?._id);
+
+    if (exists.length === 0) {
+      dispatch(addToWishList(item));
+      toast.success("Book Added to WishList Successfully");
+    } else {
+      toast.error("ALready added to WishList");
+    }
+  };
+
+  const handleReadList = (item: IBook) => {
+    const exists = readBooks.filter((book: IBook) => book?._id === item?._id);
+
+    if (exists.length === 0) {
+      dispatch(addToReadList(item));
+      toast.success("Book Added to ReadList Successfully");
+    } else {
+      toast.error("ALready added to ReadList");
+    }
   };
 
   return (
@@ -86,34 +113,52 @@ const DetailsBook = () => {
         {selectedItem.map((item: IBook) => {
           const date = new Date(item?.PublicationDate);
           const formattedDate = format(date, "dd MMM yyyy, HH:mm:ss");
-          console.log(item?.reviews);
+          // console.log(item?.reviews);
 
           return (
             <div key={item?._id}>
               <hr />
-              <div className={`flex flex-col md:flex-row justify-between items-center my-5 ${email ? "" : "hidden"}`}>
-                <div className="flex gap-5 my-5">
-                  <Link to={`/editbook/${item?._id}`}>
-                    <div className="rounded-md py-2 px-5 bg-blue-400 hover:bg-blue-500 cursor-pointer">
-                      Edit
+              <div
+                className={`flex flex-col md:flex-row justify-between items-center my-5`}
+              >
+                  <div className="flex gap-5 my-5">
+                    {email ? (
+                      <Link to={`/editbook/${item?._id}`}>
+                        <div className="rounded-md py-2 px-5 bg-blue-400 hover:bg-blue-500 cursor-pointer">
+                          Edit
+                        </div>
+                      </Link>
+                    ) : (
+                      // <Link to={`/editbook/${item?._id}`}>
+                      <div
+                        onClick={() => toast.error("Please Login First")}
+                        className="rounded-md py-2 px-5 bg-blue-400 hover:bg-blue-500 cursor-pointer"
+                      >
+                        Edit
+                      </div>
+                      // </Link>
+                    )}
+
+                    <div
+                      onClick={() => handleDeleteBook(item?._id)}
+                      className="rounded-md py-2 px-5 bg-red-400 hover:bg-red-500 cursor-pointer"
+                    >
+                      Delete
                     </div>
-                  </Link>
-                  <div
-                    onClick={() => handleDeleteBook(item?._id)}
-                    className="rounded-md py-2 px-5 bg-red-400 hover:bg-red-500 cursor-pointer"
-                  >
-                    Delete
                   </div>
-                </div>
+                
+
                 <div className="flex gap-5 my-5">
                   <div
-                    onClick={() => dispatch(addToReadList(item))}
+                    onClick={() => handleReadList(item)}
                     className="rounded-md py-2 px-5 bg-red-400 hover:bg-red-500 cursor-pointer"
                   >
                     Read List
                   </div>
                   <div
-                    onClick={() => dispatch(addToWishList(item))}
+                    onClick={() => {
+                      handleWithList(item);
+                    }}
                     className="rounded-md py-2 px-5 bg-red-400 hover:bg-red-500 cursor-pointer"
                   >
                     Add To WishList
@@ -152,11 +197,17 @@ const DetailsBook = () => {
                     placeholder="Leave a comment"
                     className="border border-blue-300 p-2 rounded-md my-2 w-full outline-blue-300"
                   />
-                  <input
-                    type="submit"
-                    value="Submit"
-                    className="bg-blue-400 hover:bg-blue-500 py-2 px-5 rounded-md mt-2"
-                  />
+                  {email ? (
+                    <input
+                      type="submit"
+                      value="Submit"
+                      className="bg-blue-400 hover:bg-blue-500 py-2 px-5 rounded-md mt-2"
+                    />
+                  ) : (
+                    <div className="bg-blue-400 hover:bg-blue-500 py-2 px-5 rounded-md mt-2 w-fit">
+                      Submit
+                    </div>
+                  )}
                 </form>
 
                 <div className="">

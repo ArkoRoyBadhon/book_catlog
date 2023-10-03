@@ -25,6 +25,7 @@ const Login = () => {
     toast("User logged in succesfully!", {
       toastId: "user log in",
     });
+    window.location.reload();
   }
   if (isLoading) {
     toast("Please wait a moment while logging in user!", {

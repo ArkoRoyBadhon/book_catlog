@@ -12,7 +12,7 @@ interface IBook {
   Title: string;
   Author: string;
   Genre: string;
-  Publicationdate: Date;
+  PublicationDate: number;
   AuthorId: string;
   reviews: string[]
 }
@@ -20,6 +20,7 @@ interface IBook {
 const AddBook = () => {
   const [createBook, {isSuccess, isError}] = useCreateBookMutation();
   const { user } = useAppSelector((state: { user: any }) => state.user);
+  const { email } = useAppSelector((state) => state.user.user);
 
 
     if (isSuccess) {
@@ -42,6 +43,7 @@ const AddBook = () => {
     const jsonData = {
       Title: data.Title,
       Author: data.Author,
+      PublicationDate: Number(data.PublicationDate),
       Genre: data.Genre,
       AuthorId: data.AuthorId
     };
@@ -49,6 +51,9 @@ const AddBook = () => {
     const bookInfo = {
       data: jsonData,
     };
+
+    console.log("book info",bookInfo);
+    
     createBook(bookInfo)
     reset();
   };
@@ -92,6 +97,16 @@ const AddBook = () => {
             />
           </div>
           <div className="">
+            <label htmlFor="firstName">Publication Year</label>
+            <br />
+            <input
+              type="number"
+              {...register("PublicationDate")}
+              placeholder="Publication Date"
+              className="border border-blue-300 p-2 rounded-md my-2 w-full outline-blue-300"
+            />
+          </div>
+          <div className="">
             <label htmlFor="Genre">Genre</label>
             <br />
             <select
@@ -125,11 +140,20 @@ const AddBook = () => {
               className="border border-blue-300 p-2 rounded-md my-2 w-full outline-blue-300"
             />
           </div>
-          <input
+          {
+            email ?
+            <input
             className="bg-blue-400 w-full mt-5 py-2 rounded-md text-white font-bold hover:bg-blue-500"
             type="submit"
             value="Create"
           />
+          :
+          <div
+          onClick={()=> toast.error("Please Login First to create Book")}
+            className="bg-blue-400 w-full mt-5 py-2 rounded-md text-white font-bold hover:bg-blue-500 text-center">
+              Create Book
+            </div>
+          }
         </form>
       </div>
     </div>

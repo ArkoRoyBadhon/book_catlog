@@ -26,7 +26,7 @@ const Navbar = () => {
   }
   const logOutHandler = () => {
     localStorage.setItem("access_token", "");
-    // window.location.reload();
+    window.location.reload();
   };
 
   return (
@@ -44,11 +44,11 @@ const Navbar = () => {
               <li className="font-bold text-[12px] md:text-[16px] cursor-pointer">
                 <Link to="/allbooks">All Books</Link>
               </li>
-              {userData?.data?.email && (
+              {/* {userData?.data?.email && ( */}
                 <li className="font-bold text-[12px] md:text-[16px] cursor-pointer">
                   <Link to="/addbook">Add New Book</Link>
                 </li>
-              )}
+              {/* )} */}
             </ul>
           </div>
           <div className="hidden md:block">

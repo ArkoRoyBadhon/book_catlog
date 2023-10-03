@@ -15,7 +15,8 @@ export type IBook = {
   Title: string;
   Author: string;
   Genre: string;
-  PublicationDate: any;
+  PublicationDate: number;
+  finish?: boolean | undefined;
 };
 
 const AllBooks = () => {
@@ -23,7 +24,7 @@ const AllBooks = () => {
   const [searchValue, setSearchValue] = useState("");
   const [finalValue, setFinalValue] = useState("");
   const [selectedGenre, setselectedGenre] = useState("");
-  const [selectedYear, setselectedYear] = useState("2023");
+  const [selectedYear, setselectedYear] = useState("");
 
   const {
     data: booklist,
@@ -50,9 +51,12 @@ const AllBooks = () => {
       }
     };
 
+    console.log("BookLL", booklist.data);
+    
+
     return (
       <div className="max-w-screen-xl mx-auto mb-10 min-h-[60vh]">
-        <div className="mt-5 mx-2 md:mx-0">
+        <div className="mt-5 mx-2 md:mx-0 w-full">
           <h4 className="font-semibold">Filter Options</h4>
 
           <form
@@ -106,15 +110,18 @@ const AllBooks = () => {
                 <option value="2020">2020</option>
                 <option value="2019">2019</option>
                 <option value="2018">2018</option>
+                <option value="2017">2017</option>
+                <option value="2016">2016</option>
+                <option value="2015">2015</option>
               </select>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-20 mx-2 md:mx-0">
-          {booklist?.data.map((item: Partial<IBook>, i: number) => {
-            const date = new Date(item?.PublicationDate);
-            const formattedDate = format(date, "dd MMM yyyy, HH:mm:ss");
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-20 mx-2 md:mx-0 w-full">
+          {booklist.data.length > 0 ? booklist?.data.map((item: Partial<IBook>, i: number) => {
+            // const date = new Date(item?.PublicationDate);
+            // const formattedDate = format(date, "dd MMM yyyy, HH:mm:ss");
 
             return (
               <div
@@ -122,9 +129,10 @@ const AllBooks = () => {
                 key={i}
               >
                 <h4 className="text-md font-bold">Book Title: {item.Title}</h4>
-                <p className="text-[12px]">{formattedDate}</p>
+                {/* <p className="text-[12px]">{formattedDate}</p> */}
+                <p className="text-[12px]">Publication Year: {item?.PublicationDate}</p>
                 <p className="text-[16px] font-semibold">
-                  Category: {item?.Genre}
+                  Genre: {item?.Genre}
                 </p>
                 <p className="text-[] font-semibold">Author: {item.Author}</p>
                 <Link to={`/detailbook/${item?._id}`}>
@@ -134,7 +142,12 @@ const AllBooks = () => {
                 </Link>
               </div>
             );
-          })}
+          })
+          :
+          <div className="text-center font-bold w-full">
+            No Data Found!
+          </div>
+        }
         </div>
         <div className="">
           <div className="flex flex-wrap"></div>
